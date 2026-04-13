@@ -1,17 +1,18 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+import List from "./components/List";
+import Search from "./components/Search";
 import "./App.css";
 
-const title = "React";
+const welcome = { title: "React", greeting: "Hello" };
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
-      <h1>Hello {title}</h1>
+      <h1>
+        {welcome.title} {welcome.greeting}
+      </h1>
+      <Search />
+      <hr />
+      <List />
     </div>
   );
 }
