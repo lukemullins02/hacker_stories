@@ -5,6 +5,8 @@ import "./App.css";
 const welcome = { title: "React", greeting: "Hello" };
 
 const App = () => {
+  console.log("App renders");
+
   const stories = [
     {
       title: "React",

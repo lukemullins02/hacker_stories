@@ -1,4 +1,5 @@
 const Item = (props) => {
+  console.log("Item renders");
   return (
     <li>
       <span>
