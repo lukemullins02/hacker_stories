@@ -1,12 +1,12 @@
 import List from "./components/List";
 import Search from "./components/Search";
+import * as React from "react";
+
 import "./App.css";
 
 const welcome = { title: "React", greeting: "Hello" };
 
 const App = () => {
-  console.log("App renders");
-
   const stories = [
     {
       title: "React",
@@ -26,14 +26,24 @@ const App = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = React.useState("React");
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <div>
       <h1>
         {welcome.title} {welcome.greeting}
       </h1>
-      <Search />
+      <Search search={searchTerm} onSearch={handleSearch} />
       <hr />
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
   );
 };
