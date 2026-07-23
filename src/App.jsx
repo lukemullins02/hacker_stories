@@ -3,8 +3,21 @@ import Search from "./components/Search";
 import * as React from "react";
 
 import "./App.css";
+import InputWithLabel from "./components/InputWithLabel";
 
 const welcome = { title: "React", greeting: "Hello" };
+
+const useStorageState = (key, initalState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initalState,
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
 
 const App = () => {
   const stories = [
@@ -26,13 +39,19 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState("React");
+  const [searchTerm, setSearchTerm] = useStorageState("search", "React");
+
+  React.useEffect(() => {
+    localStorage.setItem("search", searchTerm);
+  }, [searchTerm]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter((story) =>
+  const [storiesArr, setStoriesArr] = React.useState(stories);
+
+  const searchedStories = storiesArr.filter((story) =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
@@ -41,9 +60,17 @@ const App = () => {
       <h1>
         {welcome.title} {welcome.greeting}
       </h1>
-      <Search search={searchTerm} onSearch={handleSearch} />
+      <InputWithLabel
+        id="search"
+        value={searchTerm}
+        isFocused
+        onInputChange={handleSearch}
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
+
       <hr />
-      <List list={searchedStories} />
+      <List list={searchedStories} setList={setStoriesArr} />
     </div>
   );
 };
